@@ -1,0 +1,46 @@
+nemotron_agent:
+  responses_api_agents:
+    nemotron_agent:
+      entrypoint: app.py
+      model: ${oc.env:NEMOTRON_MODEL,nvidia/nemotron-vl}
+      provider_name: ${oc.env:OSWORLD_PROVIDER,nvcf}
+      path_to_vm: null
+      headless: true
+      action_space: pyautogui
+      observation_type: screenshot
+      sleep_after_execution: 5.0
+      max_steps: 100
+      test_config_base_dir: ${oc.env:OSWORLD_TEST_CONFIG_BASE_DIR,responses_api_agents/nemotron_agent/data/evaluation_examples}
+      result_dir: ${oc.env:OSWORLD_NEMOTRON_RESULT_DIR,results/osworld_nemotron_agent}
+      region: ${oc.env:AWS_REGION,us-east-1}
+      client_password: ${oc.env:OSWORLD_CLIENT_PASSWORD,""}
+      screen_width: 1920
+      screen_height: 1080
+      password: ${oc.env:OSWORLD_PASSWORD,password}
+      coordinate_type: relative
+      max_image_history_length: 3
+      thinking: true
+      temperature: 0.6
+      top_p: 0.95
+      max_tokens: 16384
+      vllm_api_endpoint: ${oc.env:VLLM_API_ENDPOINT,https://integrate.api.nvidia.com/v1/chat/completions}
+      vllm_api_key: ${oc.env:VLLM_API_KEY,""}
+      allow_openai_env_fallback: false
+      cache_dir: ${oc.env:OSWORLD_CACHE_DIR,/tmp/osworld_nemotron_cache}
+      startup_sleep: 10.0
+      settle_sleep: 10.0
+      create_gif: true
+      gif_frame_duration_ms: 900
+      concurrency: 1
+      close_env_after_run: true
+      use_builtin_task_bootstrap_without_llm: ${oc.env:NEMOTRON_USE_BUILTIN_TASK_BOOTSTRAP_WITHOUT_LLM,false}
+      datasets:
+      - name: osworld_test_test
+        type: example
+        jsonl_fpath: responses_api_agents/nemotron_agent/data/osworld_test_test.jsonl
+      - name: osworld_test_all_qwen3vl_235b_a22b_instruct
+        type: example
+        jsonl_fpath: responses_api_agents/nemotron_agent/data/osworld_test_all_qwen3vl_235b_a22b_instruct.jsonl
+      - name: osworld_test_all_nvidia_nemotron_nano_12b_v2_vl
+        type: example
+        jsonl_fpath: responses_api_agents/nemotron_agent/data/osworld_test_all_nvidia_nemotron_nano_12b_v2_vl.jsonl
